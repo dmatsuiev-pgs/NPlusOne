@@ -5,10 +5,7 @@ import com.denmats.nplusone.model.User;
 import com.denmats.nplusone.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,15 +16,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public List<UserDto> getUsers(@RequestParam(required = false) int page, Sort.Direction sort){
-        int pageNumber = page >= 0 ? page : 0;
-        return UserDtoMapper.mapToUserDtos(userService.getUsers(pageNumber, sort));
+    public List<UserDto> getUsers(@RequestParam(required = false) Integer page, Sort.Direction sort){
+        int pageNumber = page != null && page > 0 ? page : 0;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return UserDtoMapper.mapToUserDtos(userService.getUsers(pageNumber, sortDirection));
     }
 
     @GetMapping("/users/addresses")
-    public List<User> getUsersWithAddresses(@RequestParam(required = false) int page, Sort.Direction sort){
-        int pageNumber = page >= 0 ? page : 0;
-        return userService.getUsersWithAddresses(pageNumber, sort);
+    public List<User> getUsersWithAddresses(@RequestParam(required = false) Integer page, Sort.Direction sort){
+        int pageNumber = page != null && page > 0 ? page : 0;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return userService.getUsersWithAddresses(pageNumber, sortDirection);
     }
 
     @GetMapping("/users/{id}")
@@ -37,8 +36,22 @@ public class UserController {
 
     @GetMapping("/users/username")
     public List<User> getUserByUsername(String username){
-        return userService.getUserByUsername(username);
+    return userService.getUserByUsername(username);
     }
 
+    @PostMapping("/users")
+    public User addUser(@RequestBody User user){
+        return userService.addUser(user);
+    }
+
+    @PutMapping("/users")
+    public User editUser(@RequestBody User user){
+     return userService.editUser(user);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable long id){
+        userService.deleteUser(id);
+    }
 
 }

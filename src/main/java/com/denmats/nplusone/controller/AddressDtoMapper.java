@@ -17,7 +17,7 @@ public class AddressDtoMapper {
 
     }
 
-    private static AddressDto mapToAddressDto(Address address) {
+    public static AddressDto mapToAddressDto(Address address) {
         return AddressDto.builder()
                 .id(address.getId())
                 .userId(address.getUserId())
