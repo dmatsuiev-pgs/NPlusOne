@@ -61,9 +61,13 @@ public class UserService {
 
     @Transactional
     public User editUser(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        User userEdited = optionalUser.orElse(new User());
+        User userEdited = userRepository.findById(user.getId()).orElseThrow();
         userEdited.setUsername(user.getUsername());
+        /*
+         * @Transactional supports performing all operations with DB once regardless how many them in the given method
+         * save operation is not required and could be considered as too verbose
+         * Hibernate default behavior is to monitor changes in the repo and automatically save then
+         * */
 //        return userRepository.save(user);
         return userEdited;
     }

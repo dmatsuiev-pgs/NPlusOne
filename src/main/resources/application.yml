@@ -12,8 +12,8 @@ spring:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       ddl_auto: none
 
-    #for initialization DB schema, and filling in it with data from data.sql later
-    sql.init.mode: always
+    #for initialization DB schema, and filling in it with data from data.sql set up as env variable: spring.sql.init.mode=always
+    #initialization is needed only for the first run hence it is to be disabled for further runs
 
   #swagger
   mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER
